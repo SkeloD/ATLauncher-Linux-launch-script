@@ -266,12 +266,7 @@ public class Server implements ModManagement {
                             : ""),
                         args);
 
-                    if (Utils.executableInPath("xdg-terminal-exec")) {
-                        // freedesktop.org standard for launching the user's preferred terminal
-                        arguments.add("xdg-terminal-exec");
-                        arguments.addAll(Arrays.asList(format
-                            .split(" ")));
-                    } else if (Utils.executableInPath("exo-open")) {
+                    if (Utils.executableInPath("exo-open")) {
                         arguments.add("exo-open");
                         arguments.add("--launch");
                         arguments.add("TerminalEmulator");
@@ -285,6 +280,44 @@ public class Server implements ModManagement {
                         arguments.add("-e");
                         arguments.addAll(Arrays.asList(format
                             .split(" ")));
+                    } else if (Utils.executableInPath("ptyxis")) {
+                        arguments.add("ptyxis");
+                        arguments.add("--working-directory");
+                        arguments.add(getRoot().toAbsolutePath().toString());
+                        arguments.add("--");
+                        arguments.addAll(Arrays.asList(format
+                            .split(" ")));
+                    } else if (Utils.executableInPath("gnome-terminal")) {
+                        arguments.add("gnome-terminal");
+                        arguments.add("--");
+                        arguments.addAll(Arrays.asList(format
+                            .split(" ")));
+                    } else if (Utils.executableInPath("kgx")) {
+                        arguments.add("kgx");
+                        arguments.add("--working-directory");
+                        arguments.add(getRoot().toAbsolutePath().toString());
+                        arguments.add("-e");
+                        arguments.add(format);
+                    } else if (Utils.executableInPath("xfce4-terminal")) {
+                        arguments.add("xfce4-terminal");
+                        arguments.add("--working-directory");
+                        arguments.add(getRoot().toAbsolutePath().toString());
+                        arguments.add("-x");
+                        arguments.addAll(Arrays.asList(format
+                            .split(" ")));
+                    } else if (Utils.executableInPath("mate-terminal")) {
+                        arguments.add("mate-terminal");
+                        arguments.add("--working-directory");
+                        arguments.add(getRoot().toAbsolutePath().toString());
+                        arguments.add("-x");
+                        arguments.addAll(Arrays.asList(format
+                            .split(" ")));
+                    } else if (Utils.executableInPath("qterminal")) {
+                        arguments.add("qterminal");
+                        arguments.add("-d");
+                        arguments.add(getRoot().toAbsolutePath().toString());
+                        arguments.add("-e");
+                        arguments.add(format);
                     } else if (Utils.executableInPath("kitty")) {
                         arguments.add("kitty");
                         arguments.addAll(Arrays.asList(format
@@ -294,14 +327,14 @@ public class Server implements ModManagement {
                         arguments.add("-e");
                         arguments.addAll(Arrays.asList(format
                             .split(" ")));
+                    } else if (Utils.executableInPath("xdg-terminal-exec")) {
+                        // freedesktop.org terminal execution dispatcher (fallback to launch any unlisted user-configured default terminal)
+                        arguments.add("xdg-terminal-exec");
+                        arguments.addAll(Arrays.asList(format
+                            .split(" ")));
                     } else if (Utils.executableInPath("xterm")) {
                         arguments.add("xterm");
                         arguments.add("-e");
-                        arguments.addAll(Arrays.asList(format
-                            .split(" ")));
-                    } else if (Utils.executableInPath("gnome-terminal")) {
-                        arguments.add("gnome-terminal");
-                        arguments.add("--");
                         arguments.addAll(Arrays.asList(format
                             .split(" ")));
                     } else {
