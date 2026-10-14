@@ -266,19 +266,36 @@ public class Server implements ModManagement {
                             : ""),
                         args);
 
-                    if (Utils.executableInPath("exo-open")) {
+                    if (Utils.executableInPath("xdg-terminal-exec")) {
+                        // freedesktop.org standard for launching the user's preferred terminal
+                        arguments.add("xdg-terminal-exec");
+                        arguments.addAll(Arrays.asList(format
+                            .split(" ")));
+                    } else if (Utils.executableInPath("exo-open")) {
                         arguments.add("exo-open");
                         arguments.add("--launch");
                         arguments.add("TerminalEmulator");
                         arguments.add("--working-directory");
                         arguments.add(getRoot().toAbsolutePath().toString());
                         arguments.add(format);
+                    } else if (Utils.executableInPath("konsole")) {
+                        arguments.add("konsole");
+                        arguments.add("--workdir");
+                        arguments.add(getRoot().toAbsolutePath().toString());
+                        arguments.add("-e");
+                        arguments.addAll(Arrays.asList(format
+                            .split(" ")));
                     } else if (Utils.executableInPath("kitty")) {
                         arguments.add("kitty");
                         arguments.addAll(Arrays.asList(format
                             .split(" ")));
                     } else if (Utils.executableInPath("alacritty")) {
                         arguments.add("alacritty");
+                        arguments.add("-e");
+                        arguments.addAll(Arrays.asList(format
+                            .split(" ")));
+                    } else if (Utils.executableInPath("xterm")) {
+                        arguments.add("xterm");
                         arguments.add("-e");
                         arguments.addAll(Arrays.asList(format
                             .split(" ")));
