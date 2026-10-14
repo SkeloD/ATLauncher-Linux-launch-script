@@ -314,7 +314,7 @@ public class Server implements ModManagement {
                             .split(" ")));
                     } else if (Utils.executableInPath("qterminal")) {
                         arguments.add("qterminal");
-                        arguments.add("-d");
+                        arguments.add("--workdir");
                         arguments.add(getRoot().toAbsolutePath().toString());
                         arguments.add("-e");
                         arguments.add(format);
